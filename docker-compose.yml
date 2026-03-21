@@ -1,0 +1,68 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.production
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: lastenvelope
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Cron — dead man switches (every hour) + payment automation (every 5 min)
+  cron:
+    image: curlimages/curl:8.12.1
+    depends_on:
+      app:
+        condition: service_healthy
+    entrypoint: /bin/sh
+    command: >
+      -c "
+      COUNTER=0;
+      while true; do
+        # Payment cron — every 5 minutes
+        curl -sf -X POST http://app:3000/api/cron/payments
+          -H 'Authorization: Bearer '$${CRON_SECRET}
+          -H 'Content-Type: application/json' || true;
+
+        COUNTER=$$((COUNTER + 1));
+
+        # Switch cron — every 12 iterations = every hour
+        if [ $$((COUNTER % 12)) -eq 0 ]; then
+          curl -sf -X POST http://app:3000/api/cron/check-switch
+            -H 'Authorization: Bearer '$${CRON_SECRET}
+            -H 'Content-Type: application/json' || true;
+        fi;
+
+        sleep 300;
+      done"
+    env_file:
+      - .env.production
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:

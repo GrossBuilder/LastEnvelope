@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
 
-const protectedPaths = ["/dashboard", "/vault", "/beneficiaries", "/switch", "/settings", "/files", "/pay"];
-const authPaths = ["/login", "/register", "/verify"];
+const protectedPaths = ["/dashboard", "/vault", "/beneficiaries", "/switch", "/settings", "/files", "/pay", "/admin"];
+const authPaths = ["/login", "/register", "/verify", "/reset-password"];
 
 const MAX_BODY_SIZE = 10 * 1024 * 1024; // 10 MB
 

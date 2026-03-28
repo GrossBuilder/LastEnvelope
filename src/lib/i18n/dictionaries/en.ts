@@ -111,6 +111,8 @@ const en = {
     signingIn: "Signing in…",
     noAccount: "Don't have an account?",
     createOne: "Create one",
+    placeholderEmail: "you@example.com",
+    placeholderPassword: "••••••••",
   },
 
   verify: {
@@ -149,6 +151,7 @@ const en = {
     strengthFair: "Fair",
     strengthGood: "Good",
     strengthStrong: "Strong",
+    placeholderConfirmPassword: "••••••••",
   },
 
   dashboard: {
@@ -376,6 +379,9 @@ const en = {
     noVaultItems: "No vault items yet. Add items to your vault first.",
     allAssigned: "All vault items are assigned!",
     assignButton: "Assign →",
+    placeholderName: "John Doe",
+    placeholderEmail: "john@example.com",
+    placeholderPhone: "+1 (555) 000-0000",
   },
 
   switch: {
@@ -497,7 +503,7 @@ const en = {
     liability: "Limitation of Liability",
     liabilityText: "LastEnvelope is provided \"as is\" without warranties of any kind. We are not responsible for data loss caused by circumstances beyond our control, including hardware failures, natural disasters, or third-party service outages. Our total liability is limited to the amount you paid for the service in the 12 months preceding the claim.",
     contact: "Contact",
-    contactText: "If you have questions about these terms, contact us at support@lastenvelope.com.",
+    contactText: "If you have questions about these terms, contact us at aetheriaarchitect@proton.me.",
   },
 
   adminPayments: {
@@ -512,6 +518,125 @@ const en = {
     amount: "Amount",
     network: "Network",
     status: "Status",
+  },
+
+  support: {
+    title: "Support Ticket",
+    description: "Describe your issue or ask for help",
+    subject: "Subject",
+    subjectPlaceholder: "Brief description of your issue",
+    category: "Category",
+    categoryGeneral: "General",
+    categoryTechnical: "Technical",
+    categoryBilling: "Billing",
+    categoryAccount: "Account",
+    categorySecurity: "Security",
+    priority: "Priority",
+    priorityLow: "Low",
+    priorityNormal: "Normal",
+    priorityHigh: "High",
+    message: "Message",
+    messagePlaceholder: "Describe your issue in detail...",
+    attachments: "Attachments (max 10MB per file)",
+    filesSelected: "{count} file(s) selected",
+    submit: "Submit",
+    success: "Ticket created successfully",
+    error: "Failed to create ticket",
+    noTickets: "No tickets yet",
+    createdAt: "Created",
+    status: "Status",
+    reply: "Reply",
+    statusNew: "New",
+    statusInProgress: "In Progress",
+    statusResolved: "Resolved",
+    statusClosed: "Closed",
+  },
+
+  admin: {
+    support: {
+      title: "Support Tickets",
+      allStatuses: "All Statuses",
+      selectTicket: "Select a ticket to view details",
+      originalMessage: "Original Message",
+      attachments: "Attachments",
+      sendReply: "Send Reply",
+      statusNew: "New",
+      statusInProgress: "In Progress",
+      statusResolved: "Resolved",
+      statusClosed: "Closed",
+      newTickets: "New Tickets",
+      from: "From",
+      category: "Category",
+      status: "Status",
+      sending: "Sending...",
+      send: "Send",
+      admin: "Admin",
+    },
+  },
+
+  privacy: {
+    title: "Privacy Policy",
+    lastUpdated: "Last updated: March 28, 2026",
+    overview: "Overview",
+    overviewText:
+      "LastEnvelope (\"we\", \"us\", \"our\") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you use our digital legacy vault service.",
+    dataCollection: "Data We Collect",
+    dataCollectionText:
+      "Account Information: name, email address, and hashed password (we never store your password in plain text).\nUsage Data: activity logs, login timestamps, and feature usage for improving our service.\nPayment Data: for cryptocurrency payments, we store transaction hashes and wallet addresses. For card payments via Stripe, payment details are handled entirely by Stripe — we never see or store your card numbers.\nVault Data: encrypted blobs only — your data is encrypted client-side with AES-256-GCM before reaching our servers. We cannot read your vault contents.",
+    encryption: "Zero-Knowledge Encryption",
+    encryptionText:
+      "All vault data is encrypted on your device using AES-256-GCM with a key derived from your master password via PBKDF2 (600,000 iterations). Our servers only store encrypted ciphertext and initialization vectors. We have no ability to decrypt or access your vault contents. This is fundamental to our architecture — not a feature that can be disabled.",
+    dataUsage: "How We Use Your Data",
+    dataUsageText:
+      "We use your data exclusively to:\n• Provide and maintain the LastEnvelope service\n• Process your Dead Man's Switch check-ins and notifications\n• Deliver vault contents to your designated beneficiaries when triggered\n• Send transactional emails (verification codes, switch alerts, payment confirmations)\n• Prevent abuse and ensure platform security\n\nWe never sell, rent, or share your personal data with third parties for marketing purposes.",
+    thirdParties: "Third-Party Services",
+    thirdPartiesText:
+      "We use the following third-party services:\n• Stripe — payment processing (PCI DSS compliant)\n• Resend — transactional email delivery\n• Twilio — SMS notifications for Dead Man's Switch alerts\n• TronGrid — USDT payment verification on TRON network\n\nEach provider only receives the minimum data necessary for their service. Your encrypted vault data is never shared with any third party.",
+    cookies: "Cookies",
+    cookiesText:
+      "We use only essential cookies:\n• Session cookie — for authentication (JWT, expires after 7 days)\n• Locale cookie — to remember your language preference\n\nWe do not use tracking cookies, analytics cookies, or any third-party cookie-based tracking.",
+    retention: "Data Retention",
+    retentionText:
+      "Account data is retained as long as your account is active. You can request deletion of your account and all associated data at any time via Settings. When an account is deleted, all data — including encrypted vault items, files, beneficiary assignments, and activity logs — is permanently and irreversibly removed from our servers.",
+    rights: "Your Rights",
+    rightsText:
+      "Depending on your jurisdiction, you may have the right to:\n• Access your personal data\n• Correct inaccurate information\n• Delete your account and all data\n• Export your data\n• Withdraw consent\n• Lodge a complaint with a supervisory authority\n\nTo exercise any of these rights, contact us at the email below.",
+    children: "Children's Privacy",
+    childrenText:
+      "LastEnvelope is not intended for users under 18 years of age. We do not knowingly collect data from minors. If you believe a minor has created an account, please contact us immediately.",
+    changes: "Changes to This Policy",
+    changesText:
+      "We may update this Privacy Policy from time to time. When we do, we will update the \"Last updated\" date at the top. We encourage you to review this page periodically. Continued use of the service after changes constitutes acceptance.",
+    contact: "Contact Us",
+    contactText:
+      "For any privacy-related questions or requests, contact us at:\naetheriaarchitect@proton.me",
+  },
+
+  notFound: {
+    message: "This page doesn't exist or has been moved.",
+    backHome: "Back to Home",
+  },
+
+  resetPassword: {
+    title: "Reset Password",
+    subtitle: "Enter your email to receive a password reset code.",
+    emailPlaceholder: "your@email.com",
+    sendCode: "Send Reset Code",
+    sending: "Sending…",
+    codeSent: "Reset code sent! Check your email.",
+    newPassword: "New Password",
+    newPasswordPlaceholder: "Enter new password",
+    confirmNewPassword: "Confirm New Password",
+    confirmPlaceholder: "Re-enter new password",
+    resetButton: "Reset Password",
+    resetting: "Resetting…",
+    success: "Password reset successfully! You can now sign in.",
+    errorMismatch: "Passwords do not match",
+    errorLength: "Password must be at least 8 characters",
+    errorInvalidCode: "Invalid or expired reset code",
+    errorGeneric: "Something went wrong. Please try again.",
+    backToLogin: "Back to Sign In",
+    forgotPassword: "Forgot password?",
   },
 };
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { useI18n } from "@/lib/i18n";
 import { locales, localeNames, localeFlags } from "@/lib/i18n/config";
 import type { Locale } from "@/lib/i18n/config";
@@ -8,6 +9,7 @@ import { Globe } from "lucide-react";
 
 export function LanguageSwitcher() {
   const { locale, setLocale } = useI18n();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -37,9 +39,10 @@ export function LanguageSwitcher() {
           {locales.map((l: Locale) => (
             <button
               key={l}
-              onClick={() => {
-                setLocale(l);
+              onClick={async () => {
+                await setLocale(l);
                 setOpen(false);
+                router.refresh();
               }}
               className={`w-full flex items-center gap-2.5 px-4 py-2 text-sm transition ${
                 l === locale

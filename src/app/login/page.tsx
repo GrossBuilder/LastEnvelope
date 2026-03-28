@@ -73,7 +73,7 @@ export default function LoginPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-              placeholder="you@example.com"
+              placeholder={t.login.placeholderEmail}
             />
           </div>
 
@@ -89,7 +89,7 @@ export default function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-2.5 pr-11 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-                placeholder="••••••••"
+                placeholder={t.login.placeholderPassword}
               />
               <button
                 type="button"
@@ -100,6 +100,15 @@ export default function LoginPage() {
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
+          </div>
+
+          <div className="flex justify-end">
+            <Link
+              href="/reset-password"
+              className="text-sm text-emerald-400 hover:text-emerald-300 transition"
+            >
+              {t.resetPassword.forgotPassword}
+            </Link>
           </div>
 
           <button

@@ -1,11 +1,11 @@
-.import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { encryptAndSaveFile, decryptFile, deleteFile, getUploadDir } from "@/lib/file-storage";
 import path from "path";
 import { existsSync } from "fs";
 import { unlink, readdir, rm } from "fs/promises";
 
-// Use a temp upload dir for tests
-vi.stubEnv("FILE_ENCRYPTION_KEY", "6e4d67e260ba3e5df2023d8d573ecabc7ec8bc29fcc213c09492954dfda2666e");
+// Use a dedicated TEST key — not the production one
+vi.stubEnv("FILE_ENCRYPTION_KEY", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
 
 describe("file-storage", () => {
   const createdFiles: string[] = [];

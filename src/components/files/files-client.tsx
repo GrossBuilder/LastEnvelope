@@ -210,14 +210,14 @@ export default function FilesClient() {
                   <button
                     onClick={() => handleDownload(file.id, file.originalName)}
                     className="p-2 rounded-lg text-zinc-500 hover:text-emerald-400 hover:bg-zinc-700 transition"
-                    title="Download"
+                    title={t.common.download}
                   >
                     <Download className="w-4 h-4" />
                   </button>
                   <button
                     onClick={() => handleDelete(file.id)}
                     className="p-2 rounded-lg text-zinc-500 hover:text-red-400 hover:bg-zinc-700 transition"
-                    title="Delete"
+                    title={t.common.delete}
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

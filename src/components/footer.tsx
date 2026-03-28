@@ -2,10 +2,21 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n";
 
 export function Footer() {
   const { t } = useI18n();
+  const { data: session } = useSession();
+  const pathname = usePathname();
+
+  // Hide footer on admin panel
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
+  const isAdmin = (session?.user as { isAdmin?: boolean } | undefined)?.isAdmin;
 
   return (
     <footer className="border-t border-white/10 bg-zinc-950 mt-auto">
@@ -19,16 +30,29 @@ export function Footer() {
               {t.footer.terms}
             </Link>
             <span className="text-zinc-700">|</span>
+            <Link href="/privacy" className="hover:text-white transition">
+              {t.privacy.title}
+            </Link>
+            <span className="text-zinc-700">|</span>
             <a
-              href="mailto:support@lastenvelope.com"
+              href="mailto:aetheriaarchitect@proton.me"
               className="hover:text-white transition"
             >
-              support@lastenvelope.com
+              aetheriaarchitect@proton.me
             </a>
           </div>
-          <p className="text-zinc-500 text-sm">
-            &copy; {new Date().getFullYear()} LastEnvelope. {t.footer.tagline}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-zinc-500 text-sm">
+              &copy; {new Date().getFullYear()} LastEnvelope. {t.footer.tagline}
+            </p>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="w-2 h-2 rounded-full bg-zinc-700 hover:bg-emerald-500 transition-colors"
+                title="Admin"
+              />
+            )}
+          </div>
         </div>
       </div>
     </footer>

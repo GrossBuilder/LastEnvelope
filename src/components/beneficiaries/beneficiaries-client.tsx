@@ -178,7 +178,7 @@ export function BeneficiariesClient() {
                   <button
                     onClick={() => setEditBeneficiary(b)}
                     className="p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-white hover:bg-zinc-700 transition"
-                    title="Edit"
+                    title={t.common.edit}
                   >
                     <Pencil className="w-4 h-4" />
                   </button>
@@ -186,7 +186,7 @@ export function BeneficiariesClient() {
                     onClick={() => handleDelete(b.id)}
                     disabled={deleting === b.id}
                     className="p-2 rounded-lg bg-zinc-800 text-zinc-400 hover:text-red-400 hover:bg-zinc-700 transition disabled:opacity-50"
-                    title="Delete"
+                    title={t.common.delete}
                   >
                     {deleting === b.id ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

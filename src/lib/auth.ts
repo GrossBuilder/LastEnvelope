@@ -85,14 +85,18 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.id = user.id;
         token.plan = (user as { plan?: string }).plan || "FREE";
+        token.isAdmin = user.email === process.env.ADMIN_EMAIL;
       }
       // Refresh plan from DB on session update
       if (trigger === "update" && token.id) {
         const dbUser = await prisma.user.findUnique({
           where: { id: token.id as string },
-          select: { plan: true },
+          select: { plan: true, email: true },
         });
-        if (dbUser) token.plan = dbUser.plan;
+        if (dbUser) {
+          token.plan = dbUser.plan;
+          token.isAdmin = dbUser.email === process.env.ADMIN_EMAIL;
+        }
       }
       return token;
     },
@@ -100,6 +104,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (session.user && token.id) {
         session.user.id = token.id as string;
         (session.user as { plan?: string }).plan = token.plan as string;
+        (session.user as { isAdmin?: boolean }).isAdmin = token.isAdmin as boolean;
       }
       return session;
     },

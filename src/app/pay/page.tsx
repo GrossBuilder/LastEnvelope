@@ -394,7 +394,7 @@ function PayPageContent() {
             <p>
               {t.pay.havingIssues}{" "}
               <a
-                href="mailto:support@lastenvelope.com"
+                href="mailto:aetheriaarchitect@proton.me"
                 className="text-emerald-500 hover:underline"
               >
                 {t.pay.contactSupport}

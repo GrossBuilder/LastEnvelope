@@ -4,7 +4,7 @@ import crypto from "crypto";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
-import { sendEmail } from "@/lib/email";
+import { sendEmail, isEmailConfigured } from "@/lib/email";
 import { logger } from "@/lib/logger";
 
 const registerSchema = z.object({
@@ -59,6 +59,21 @@ export async function POST(req: NextRequest) {
         hashedPassword,
       },
     });
+
+    // If email service is not configured, auto-verify the user
+    if (!isEmailConfigured()) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
+
+      logger.info({ userId: user.id }, "User registered, auto-verified (email not configured)");
+
+      return NextResponse.json(
+        { user: { id: user.id, name: user.name, email: user.email }, needsVerification: false },
+        { status: 201 }
+      );
+    }
 
     // Generate 6-digit verification code
     const code = crypto.randomInt(100000, 999999).toString();

@@ -93,7 +93,7 @@ export function BeneficiaryModal({ editData, onClose, onSaved }: Props) {
               onChange={(e) => setName(e.target.value)}
               maxLength={100}
               className="w-full px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-              placeholder="John Doe"
+              placeholder={t.beneficiaries.placeholderName}
             />
           </div>
 
@@ -107,7 +107,7 @@ export function BeneficiaryModal({ editData, onClose, onSaved }: Props) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-              placeholder="john@example.com"
+              placeholder={t.beneficiaries.placeholderEmail}
             />
           </div>
 
@@ -122,7 +122,7 @@ export function BeneficiaryModal({ editData, onClose, onSaved }: Props) {
               onChange={(e) => setPhone(e.target.value)}
               maxLength={20}
               className="w-full px-4 py-2.5 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-              placeholder="+1 (555) 000-0000"
+              placeholder={t.beneficiaries.placeholderPhone}
             />
           </div>
 

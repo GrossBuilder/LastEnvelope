@@ -3,8 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Settings } from "lucide-react";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { useI18n } from "@/lib/i18n";
 import { LanguageSwitcher } from "./language-switcher";
 
@@ -12,6 +13,14 @@ export function Header() {
   const { data: session } = useSession();
   const { t } = useI18n();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
+
+  // Hide header on admin panel
+  if (pathname.startsWith('/admin')) {
+    return null;
+  }
+
+  const isAdmin = (session?.user as { isAdmin?: boolean } | undefined)?.isAdmin;
 
   return (
     <header className="border-b border-white/10 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
@@ -47,6 +56,19 @@ export function Header() {
                   {t.nav.pricing}
                 </Link>
                 <LanguageSwitcher />
+                {/* Hidden admin button */}
+                {isAdmin && (
+                  <Link
+                    href="/admin"
+                    title="Admin Panel"
+                    className="group relative inline-block opacity-50 hover:opacity-100 transition-opacity"
+                  >
+                    <Settings className="w-5 h-5 text-zinc-400 hover:text-emerald-500 transition cursor-pointer" />
+                    <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-zinc-900 border border-emerald-500/50 rounded px-2 py-1 text-xs text-emerald-400 whitespace-nowrap">
+                      Admin Panel
+                    </div>
+                  </Link>
+                )}
                 <button
                   onClick={() => signOut({ callbackUrl: "/" })}
                   className="ml-4 px-4 py-2 rounded-lg bg-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-700 transition"
@@ -78,7 +100,7 @@ export function Header() {
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-
+                
         {/* Mobile menu */}
         {mobileOpen && (
           <nav className="md:hidden pb-4 flex flex-col gap-3">

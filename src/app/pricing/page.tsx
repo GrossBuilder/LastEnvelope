@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Check, Sparkles, Crown, Zap, Loader2 } from "lucide-react";
+import { Check, Sparkles, Crown, Zap, Loader2, CreditCard, Coins } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export default function PricingPage() {
@@ -12,6 +12,7 @@ export default function PricingPage() {
   const { t } = useI18n();
   const [loading, setLoading] = useState<string | null>(null);
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [payMethod, setPayMethod] = useState<"card" | "crypto">("card");
 
   const currentPlan = (session?.user as { plan?: string })?.plan || "FREE";
 
@@ -61,15 +62,28 @@ export default function PricingPage() {
 
     setLoading(plan);
     try {
-      const res = await fetch("/api/payments/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ plan, network: "TRC20", billing }),
-      });
-      const data = await res.json();
-
-      if (data.paymentId) {
-        router.push(`/pay?id=${data.paymentId}`);
+      if (payMethod === "card") {
+        // LemonSqueezy Checkout
+        const res = await fetch("/api/lemonsqueezy/checkout", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan, billing }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        }
+      } else {
+        // USDT Payment
+        const res = await fetch("/api/payments/create", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ plan, network: "TRC20", billing }),
+        });
+        const data = await res.json();
+        if (data.paymentId) {
+          router.push(`/pay?id=${data.paymentId}`);
+        }
       }
     } finally {
       setLoading(null);
@@ -110,6 +124,32 @@ export default function PricingPage() {
             <span className="ml-1.5 text-xs px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400">
               -17%
             </span>
+          </button>
+        </div>
+
+        {/* Payment method toggle */}
+        <div className="inline-flex items-center bg-zinc-900 border border-zinc-800 rounded-xl p-1 ml-3">
+          <button
+            onClick={() => setPayMethod("card")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
+              payMethod === "card"
+                ? "bg-emerald-600 text-white"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            <CreditCard className="w-4 h-4" />
+            Card
+          </button>
+          <button
+            onClick={() => setPayMethod("crypto")}
+            className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
+              payMethod === "crypto"
+                ? "bg-emerald-600 text-white"
+                : "text-zinc-400 hover:text-white"
+            }`}
+          >
+            <Coins className="w-4 h-4" />
+            USDT
           </button>
         </div>
       </div>

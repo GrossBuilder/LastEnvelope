@@ -50,6 +50,26 @@ export async function POST(req: NextRequest) {
           },
         });
 
+        // Record card payment
+        const amountTotal = session.amount_total
+          ? session.amount_total / 100
+          : plan === "PRO" ? 4.99 : 9.99;
+        const currency = (session.currency || "usd").toUpperCase();
+
+        await prisma.cardPayment.create({
+          data: {
+            userId,
+            provider: "stripe",
+            plan,
+            billing: "monthly",
+            amount: amountTotal,
+            currency,
+            status: "active",
+            subscriptionId: subscription.id,
+            orderId: session.id,
+          },
+        });
+
         await prisma.activityLog.create({
           data: {
             userId,
@@ -107,6 +127,18 @@ export async function POST(req: NextRequest) {
               stripeCurrentPeriodEnd: null,
             },
           });
+
+          // Update card payment record
+          const latestCardPayment = await prisma.cardPayment.findFirst({
+            where: { subscriptionId: subscription.id },
+            orderBy: { createdAt: "desc" },
+          });
+          if (latestCardPayment) {
+            await prisma.cardPayment.update({
+              where: { id: latestCardPayment.id },
+              data: { status: "cancelled" },
+            });
+          }
 
           await prisma.activityLog.create({
             data: {

@@ -71,8 +71,13 @@ export default function RegisterPage() {
       return;
     }
 
-    // Redirect to email verification page
-    router.push(`/verify?email=${encodeURIComponent(email)}`);
+    if (data.needsVerification === false) {
+      // Email not configured — user auto-verified, go straight to login
+      router.push("/login");
+    } else {
+      // Redirect to email verification page
+      router.push(`/verify?email=${encodeURIComponent(email)}`);
+    }
   }
 
   return (
@@ -182,7 +187,7 @@ export default function RegisterPage() {
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 className="w-full px-4 py-2.5 pr-11 rounded-xl bg-zinc-800 border border-zinc-700 text-white placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-600 transition"
-                placeholder="••••••••"
+                placeholder={t.register.placeholderConfirmPassword}
               />
               <button
                 type="button"

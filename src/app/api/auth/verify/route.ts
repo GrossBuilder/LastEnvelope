@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
+import { timingSafeEqual } from "crypto";
 import { prisma } from "@/lib/prisma";
 import { rateLimit } from "@/lib/rate-limit";
 import { logger } from "@/lib/logger";
@@ -45,7 +46,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Code expired" }, { status: 400 });
     }
 
-    if (verification.code !== code) {
+    if (!timingSafeEqual(Buffer.from(verification.code), Buffer.from(code))) {
       await prisma.emailVerification.update({
         where: { id: verification.id },
         data: { attempts: { increment: 1 } },
